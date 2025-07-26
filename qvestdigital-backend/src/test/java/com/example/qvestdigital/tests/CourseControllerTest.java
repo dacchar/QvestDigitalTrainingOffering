@@ -1,4 +1,4 @@
-package com.example.qvestdigital.CourseJpaRepository;
+package com.example.qvestdigital.tests;
 
 import com.example.qvestdigital.controllers.CourseController;
 import com.example.qvestdigital.dto.CourseDto;
