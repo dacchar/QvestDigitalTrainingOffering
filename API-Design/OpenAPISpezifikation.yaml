@@ -1,0 +1,214 @@
+openapi: 3.0.0
+info:
+  title: Schulungs-API
+  version: 1.0.0
+  description: REST API zur Verwaltung von Schulungen, Terminen und Buchungen
+
+paths:
+  /trainings:
+    get:
+      summary: Liste aller Schulungen
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          description: Startdatum für Zeitraumfilter
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          description: Enddatum für Zeitraumfilter
+      responses:
+        '200':
+          description: Liste der Schulungen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Training'
+    post:
+      summary: Neue Schulung anlegen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingInput'
+      responses:
+        '201':
+          description: Schulung erstellt
+
+  /trainings/{id}:
+    put:
+      summary: Schulung aktualisieren
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingInput'
+      responses:
+        '200':
+          description: Schulung aktualisiert
+
+  /trainings/{id}/sessions:
+    get:
+      summary: Termine zu einer Schulung abrufen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste von Terminen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      summary: Termin zu einer Schulung anlegen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionInput'
+      responses:
+        '201':
+          description: Termin angelegt
+
+  /sessions/{session_id}:
+    put:
+      summary: Termin aktualisieren
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionInput'
+      responses:
+        '200':
+          description: Termin aktualisiert
+
+  /bookings:
+    post:
+      summary: Schulungstermin buchen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+      responses:
+        '201':
+          description: Buchung erfolgreich
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+
+components:
+  schemas:
+    Training:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        instructor:
+          type: string
+
+    TrainingInput:
+      type: object
+      required: [name, description, price, instructor]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        instructor:
+          type: string
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        duration_hours:
+          type: number
+        location:
+          type: string
+
+    SessionInput:
+      type: object
+      required: [date, duration_hours, location]
+      properties:
+        date:
+          type: string
+          format: date-time
+        duration_hours:
+          type: number
+        location:
+          type: string
+
+    BookingInput:
+      type: object
+      required: [training_id, session_id, customer]
+      properties:
+        training_id:
+          type: integer
+        session_id:
+          type: integer
+        customer:
+          type: object
+          required: [name, email]
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+
+    Booking:
+      type: object
+      properties:
+        booking_id:
+          type: integer
+        status:
+          type: string

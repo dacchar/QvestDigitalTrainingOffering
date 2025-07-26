@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">
+            {{course.name}}
+            <div class="float-end">
+                <button (click)="updateCourse(course.id)" class="btn btn-light btn-sm"><i class="bi bi-pen"></i></button>
+                <button (click)="deleteCourse(course.id)" class="btn btn-light btn-sm ms-2"><i class="bi bi-trash"></i></button>
+            </div>
+        </h5>
+        <div class="card-text">
+            <hr />
+            <div class="fw-light">Description: {{course.description}}</div>
+            <div class="fw-light">Instructor: {{course.instructor}}</div>
+            <hr />
+        </div>
+        <div>
+            <i class="bi bi-cash-stack"></i> {{course.price}} <i class="bi bi-currency-euro"></i>
+        </div>
+    </div>
+</div>

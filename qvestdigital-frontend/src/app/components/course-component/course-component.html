@@ -1,0 +1,49 @@
+<H1>Course</H1>
+
+<div class="container">
+
+    @if(courseForm.dirty && courseForm.invalid) {
+        <div class="alert alert-warning">Enter valid values!</div>
+    }
+
+    @if(courseForm.dirty && name.invalid) {
+        <div class="alert alert-warning">Enter valid course name at least 2 characters!</div>
+    } 
+
+    <form (ngSubmit)="!courseForm.invalid && saveCourse()" #courseForm="ngForm">
+
+        <fieldset class="form-group">
+            <label>Course name</label>
+            <input type="text" [(ngModel)]="course.name" 
+            #name="ngModel"
+            class="form-control" name="name" required="required" minlength="2">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label>Description</label>
+            <input type="text" [(ngModel)]="course.description" 
+            #description="ngModel"
+            class="form-control" name="description">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label>Price</label>
+            <input type="text" [(ngModel)]="course.price" 
+            #price="ngModel"
+            class="form-control" name="price">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label>Instructor</label>
+            <input type="text" [(ngModel)]="course.instructor"
+            #instructor="ngModel"
+            class="form-control" name="instructor">
+        </fieldset>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-warning" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+
+</div>

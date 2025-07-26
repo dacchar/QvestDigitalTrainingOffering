@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <h2 class="col-8">Course Catalog</h2>
+        <div class="col-4">    
+            <div class="d-flex justify-content-md-end ">
+            <button (click)="addCourse()" class="btn btn-secondary"><i class="bi bi-plus-lg"></i> Add order</button>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        @for (course of courses; track course.id) {
+            <div class="col-3">
+                    <app-course-list-item-component [course]=course (deletedCourseEvent)="onDeletedCourse()"></app-course-list-item-component>
+            </div>
+        }
+    </div>
+
+</div>
